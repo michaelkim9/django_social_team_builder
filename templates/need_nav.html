@@ -1,0 +1,5 @@
+{% for need in needs %}
+    <ul class="circle--filter--list">
+    <li><a href="{% url 'need' need=need %}" >{{ need }}</a></li>
+    </ul>
+{% endfor %}

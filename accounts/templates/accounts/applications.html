@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+
+{% block body_content %}
+
+  <div class="bounds circle--page">
+    <div class="circle--page--header grid-100">
+      <h2>Applications</h2>
+    </div>
+    <div class="grid-25">
+      <div class="circle--filter circle--secondary--module">
+        <h4>Status</h4>
+        <ul class="circle--filter--list">
+          <li><a {% if status == 'all' %}class="selected"{% endif %} href="{% url 'accounts:my_applications' %}">All Applications</a></li>
+          <li><a {% if status == 'new' %}class="selected"{% endif %}href="?status=new">New Applications</a></li>
+          <li><a {% if status == 'accepted' %}class="selected"{% endif %}href="?status=accepted">Accepted</a></li>
+          <li><a {% if status == 'rejected' %}class="selected"{% endif %}href="?status=rejected">Rejected</a></li>
+        </ul>
+      </div>
+
+      <div class="circle--filter circle--secondary--module">
+        <h4>My Projects</h4>
+        <ul class="circle--filter--list">
+          <li><a>All Projects</a></li>
+
+                <li></li>
+
+        </ul>
+      </div>
+
+      <div class="circle--filter circle--secondary--module">
+        <h4>Project Needs</h4>
+        <ul class="circle--filter--list">
+            <li><a>All Needs</a></li>
+
+                <li><a></a></li>
+
+
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="grid-70 grid-push-5">
+      <table class="u-full-width circle--table">
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th class="circle--cell--right">Applicant Position</th>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        {% for application in applications %}
+            {% if application.project.owner == user %}
+           <tr>
+                <td>
+                    <a href="{% url 'accounts:profile' username=application.applicant.username %}"><h3>@{{ application.applicant.username }} </h3></a>
+                    <h3>{{ application.applicant.userprofile.firstname|title }} {{ application.applicant.userprofile.lastname|title }}</h3>
+                  <p>Project:{{ application.project }}</p>
+                </td>
+
+                <td class="circle--cell--right">
+                  <span class="secondary-label">{{ application.position }}</span>
+                </td>
+                {% if application.is_accepted == None %}
+                    <td>
+                        <a href="{% url 'accounts:status_update' application.position.pk application.applicant.pk 'approve' %}">Approve</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'accounts:status_update' application.position.pk application.applicant.pk 'deny' %}">Deny</a>
+                    </td>
+
+                {% elif application.is_accepted %}
+                    <td colspan="2">Approved!</td>
+                {% elif not application.is_accepted %}
+                    <td colspan="2">Denied</td>
+                {% endif %}
+           </tr>
+           {% endif %}
+         {% endfor %}
+
+
+        </tbody>
+      </table>
+
+    </div>
+    </div>
+
+{% endblock %}

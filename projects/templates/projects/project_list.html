@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block body_content %}
+
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <a class="button" href="project_edit.html">Edit Project</a>
+        <a class="button button-text" href="index.html">Delete Project</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--header">
+        <h1 class="circle--article--section">All Projects</h1>
+        {% if project_list %}
+        {% for project in project_list %}
+        <a href="{% url 'projects:project_detail' pk=project.id %}"><h3>{{project.title}}</h3></a>
+        {% endfor %}
+        {% else %}
+        <p>There are no projects here</p>
+        {% endif %}
+
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

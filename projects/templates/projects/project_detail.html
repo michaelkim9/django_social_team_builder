@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block body_content %}
+
+{% if user.is_authenticated and user == project.owner %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <a class="button" href="{% url 'projects:project_edit' pk=project.pk %}">Edit Project</a>
+        <a class="button button-text" href="{% url 'projects:project_delete' pk=project.pk %}">Delete Project</a>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--header">
+        <h4 class="circle--article--section">Project</h4>
+        <h1 class="circle--article--title">{{object.title}}</h1>
+        <p class="circle--article--byline">Project Owner: <a>{{ user.userprofile.firstname|title}} {{ user.userprofile.lastname|title }}</a></p>
+      </div>
+
+      <div class="circle--article--body">
+        <p>{{object.description}}</p>
+     </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+
+        <ul class="circle--group--list">
+          <li>
+            {% if positions %}
+            {% for pos in positions %}
+            <h3>{{pos.name}}</h3>
+                <h3>Description</h3>
+              <p>{{pos.description}}</p>
+                <h3>Skills</h3>
+                {% for skill in pos.skills.all %}
+                <p>{{skill}}</p>
+                    {% endfor %}
+
+              <a class="button button-primary" href="{% url 'projects:position_apply' pos.project.pk pos.pk %}">Apply</a>
+              {% endfor %}
+              {% else %}
+              <p>No positions</p>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="grid-25 grid-push-5">
+      <div class="circle--secondary--module">
+        <h3>Project Needs</h3>
+        <ul class="circle--link--list">
+            {% if positions %}
+            {% for pos in positions %}
+            <li><a href=""><h3>{{pos.name}}</h3></a></li>
+              {% endfor %}
+              {% else %}
+              <p>No Needs</p>
+            {% endif %}
+        </ul>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        <p>{{project.timeline}}</p>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Project Requirements</h3>
+        <p>{{project.requirements}}</p>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

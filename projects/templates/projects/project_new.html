@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+
+{% block body_content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <button class="button button-primary" type="submit">Save Project</button>
+        <a class="button button-text" href="{% url 'projects:projects' %}">Discard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--body">
+         {{ form.title.errors }}
+          {{ form.title }}
+          {{ form.description }}
+      </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+        <ul class="circle--group--list circle--list">
+            {{ p_formset.management_form }}
+            {% for p_form in p_formset %}
+
+            <li class="p-formset">
+                {{ p_form.name }}
+                {{ p_form.description }}
+                Select Required Skills
+                {{ p_form.skills }}
+
+            </li>
+
+            {% endfor %}
+
+       <!-- <a class="circle--clone--add">Add Position</a>
+            <a class="circle--clone--remove">Remove</a>
+            -->
+        </ul>
+
+        <button class="button button-primary" type="submit">Save Project</button>
+
+      </div>
+    </div>
+
+    <div class="grid-25 grid-push-5">
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+         {{ form.timeline.errors }}
+          {{ form.timeline }}
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Project Requirements</h3>
+         {{ form.requirements.errors }}
+          {{ form.requirements }}
+      </div>
+
+    </div>
+  </div>
+</form>
+{% endblock %}
