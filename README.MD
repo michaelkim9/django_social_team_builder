@@ -5,11 +5,11 @@ This project builds a site where people can sign up to find projects that need h
 ### Requirements
 Use the provided `requirements.txt` to install needed packages for this project in a virtual environment. While your virtualenv is activated, run the following command in bash.
 ```bash
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 ### Start Application
 After installing the required packages, run the project from your terminal on your local server.
 ```bash
-$ python manage.py runserver
+$ python3 manage.py runserver
 ```
